@@ -1,45 +1,73 @@
 {% extends "base.html" %}
-{% block title %}Sohbet{% endblock %}
+{% load static %}
+{% block title %}Chat{% endblock %}
 
 {% block content %}
-<h2 class="mb-3">Sohbet</h2>
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<script src="{% static 'js/chat.js' %}" defer></script>
 
-<style>
-  .chat-box { height: 60vh; overflow-y: auto; background:#f7f7f7; border:1px solid #928b8bff; border-radius:10px; padding:12px; }
-  .msg     { max-width: 75%; padding:8px 12px; border-radius:12px; margin:6px 0; word-wrap: break-word; }
-  .msg.ai  { background:#ffffff; border:1px solid #b7b1b1ff; text-align:left; }
-  .msg.me  { background:#7a7d7b;  border:1px solid #626665ff; text-align:right; margin-left:auto; }
-  .meta    { font-size:12px; color:#6b7280; margin-bottom:4px; }
-</style>
+<div class="min-h-[calc(100vh-6rem)] bg-[#f7f7f8]">
+  <div class="max-w-3xl mx-auto px-4 pt-6 pb-3">
+    <h2 class="text-xl font-semibold text-gray-800">Chat</h2>
+    <p class="text-sm text-gray-500">Start a conversation with your AI assistant.</p>
+  </div>
 
-<div id="chatBox" class="chat-box mb-3">
-  {% if chat_history %}
-    {% for m in chat_history %}
-      <div class="msg {% if m.sender == 'ai' %}ai{% else %}me{% endif %}">
-        <div class="meta">
-          {% if m.sender == 'ai' %}Asistan{% else %}Sen{% endif %} · {{ m.created|date:"H:i" }}
+  <div class="max-w-3xl mx-auto px-4">
+    <div id="chatBox" class="rounded-2xl border border-gray-200 bg-white shadow-sm p-3 sm:p-4 h-[60vh] overflow-y-auto">
+      {% if chat_history %}
+        {% for m in chat_history %}
+          <div class="flex gap-3 mb-4 {% if m.sender == 'ai' %}items-start{% else %}items-start justify-end{% endif %}">
+            {% if m.sender == 'ai' %}
+              <div class="shrink-0 w-8 h-8 rounded-full bg-[#10a37f] text-white flex items-center justify-center text-xs font-bold select-none">AI</div>
+            {% else %}
+              <div class="shrink-0 w-8 h-8"></div>
+            {% endif %}
+
+            <div class="{% if m.sender == 'ai' %}bg-[#f7f7f8] border border-gray-200{% else %}bg-white border border-gray-200{% endif %} rounded-2xl px-4 py-3 max-w-[85%] leading-relaxed text-[15px] relative group">
+              <div class="text-xs text-gray-500 mb-2">
+                {% if m.sender == 'ai' %}Assistant{% else %}You{% endif %} · {{ m.created|date:"H:i" }}
+              </div>
+              <div class="message-content prose-sm">
+                {{ m.text|linebreaksbr }}
+              </div>
+              <button class="copy-btn opacity-0 group-hover:opacity-100 transition text-xs absolute -top-2 right-2 bg-white border border-gray-200 rounded-md px-2 py-0.5"
+                      data-copy-text="{{ m.text|escapejs }}">Copy</button>
+            </div>
+
+            {% if m.sender != 'ai' %}
+              <div class="shrink-0 w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center text-xs font-bold select-none">U</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="text-gray-500 text-sm">No messages yet. Say hi 👋</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-4">
+    <form method="post" class="mt-3">
+      {% csrf_token %}
+      <div class="rounded-2xl border border-gray-300 bg-white shadow-sm p-3">
+        <textarea
+          name="user_input"
+          id="messageInput"
+          rows="1"
+          class="w-full resize-none focus:outline-none focus:ring-0 text-[15px]"
+          placeholder="Type a message…"
+          required
+        ></textarea>
+
+        <div class="mt-3 flex items-center justify-between">
+          <div class="text-xs text-gray-500">Press <kbd>Enter</kbd> to send · <kbd>Shift</kbd> + <kbd>Enter</kbd> for newline</div>
+          <button type="submit"
+                  class="inline-flex items-center gap-2 px-4 py-2 bg-[#10a37f] hover:bg-[#0e8e6f] text-white text-sm font-medium rounded-lg transition">
+            Send
+          </button>
         </div>
-        {{ m.text }}
       </div>
-    {% endfor %}
-  {% else %}
-    <div class="text-muted">Henüz mesaj yok. İlk mesajını yaz 👇</div>
-  {% endif %}
+    </form>
+    <div class="h-8"></div>
+  </div>
 </div>
-
-<form method="post" class="d-grid gap-2">
-  {% csrf_token %}
-  <textarea name="user_input" id="messageInput" rows="2" class="form-control" placeholder="Mesajını yaz..." required></textarea>
-  <button type="submit" class="btn" style="background-color:#7a7d7b; border-color:#7a7d7b; color:#fff;">Gönder</button>
-</form>
-
-
-  
-<script>
-    window.onload = function() {
-        var box = document.getElementById("chatBox");
-        box.scrollTop = box.scrollHeight;
-    };
-</script>
-
-{% endblock %}
+{% endblock content %}

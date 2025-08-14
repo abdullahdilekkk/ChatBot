@@ -33,5 +33,4 @@ def chat_view(request, pk):
     
     form = forms.ChatForm()
     chat_history = s.messages.order_by("created")
-    
     return render(request, "web/chat.html", {"form": form, "chat_history": chat_history, "session": s})
