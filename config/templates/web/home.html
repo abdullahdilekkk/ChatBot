@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}ChatBot-Ana Sayfa{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>ChatBot'a Hoş Geldin</h1>
+    <p class="lead">Yapay zekâ ile konuşmak için yeni bir sohbet başlat.</p>
+    <a href="{% url 'new_chat' %}" class="btn btn-primary btn-lg">Yeni Sohbet Başlat</a>
+</div>
+{% endblock %}
