@@ -1,7 +1,10 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class ChatSession(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="chat_sessions", null=True, blank=True,       )
+    title = models.CharField(max_length=120, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
