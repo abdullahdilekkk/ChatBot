@@ -11,11 +11,23 @@
 <body class="bg-light">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">ChatBot</a>
-        <a href="{% url 'login' %}"class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Login</a>
+  <!-- container'a flex verip iki uca yaydık -->
+  <div class="container flex justify-between items-center">
+    <a class="font-bold text-white" href="{% url 'home' %}">ChatBot</a>
 
+    <!-- SAĞ blok: doğru class söz dizimi + araya boşluk -->
+    <div class="flex space-x-6">
+      {% if user.is_authenticated %}
+        <a href="#" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Account</a>
+        <a href="{% url 'logout' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Login</a>
+        <a href="{% url 'register' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Sign Up</a>
+      {% endif %}
+    </div>
+  </div>
 </nav>
+
 
 <div class="container">
     {% block content %}{% endblock %}

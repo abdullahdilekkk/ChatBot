@@ -1,0 +1,36 @@
+{%extends 'base.html' %}
+{%block title%}Kayıt Ol{%endblock%}
+
+{% block content%}
+<div class="min-h-[calc(100vh-6rem)] bg-gray-100 flex items-center justify-center py-16">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Kayıt Ol</h2>
+
+    <form method="post" class="js-styled-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit"
+              class="w-full inline-flex items-center justify-center rounded-md px-4 py-2 text-white text-sm font-medium
+                     bg-[#5e635f] hover:bg-[#070d08] transition">
+        Giriş
+      </button>
+    </form>
+
+    {% comment %} <p class="text-center mt-4 text-sm text-gray-700">
+      Zaten hesabın var mı?
+      <a href="{% url 'login' %}"
+         class="no-underline text-[#4CAF50] visited:text-[#4CAF50] hover:text-gray-500 transition">
+        Giriş Yap
+      </a>
+    </p> {% endcomment %}
+  </div>
+</div>
+
+
+{%endblock%}
+
+
+
+
+
+

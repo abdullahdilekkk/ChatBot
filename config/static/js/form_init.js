@@ -3,6 +3,9 @@
 (function () {
   function styleForm(formEl) {
     if (!formEl) return;
+    const style = document.createElement('style');
+    style.textContent = '.helptext{display:none!important}';
+    document.head.appendChild(style);
 
     // Her p satırını kutu yap
     formEl.querySelectorAll("p").forEach(p => {
