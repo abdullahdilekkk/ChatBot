@@ -37,9 +37,6 @@ def get_news(request):
     try:
         response = requests.get(url, params=params)
         data = response.json()
-        print(data)  # API'den gelen tüm JSON
-        print(data.get("articles", []))  # sadece sources listesi
-
         return render(request, 'web/home.html', {"articles":data.get("articles", [])})
     
     except requests.exceptions.RequestException as e:
