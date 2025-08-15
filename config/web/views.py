@@ -79,7 +79,7 @@ def chat_view(request, pk):
                 ai_text="*****Ai den yanıt alınamadı*****"
 
             if not s.title:
-                s.title = user_text[:12]
+                s.title = user_text[:24]
                 #BURADA AMAÇ TİTLE BOŞ DA OLABİLİR BOŞSA GİRMEZ İF DEN AMA BOŞSA 
                 #USER_TEXTİN İL 12 İNDİSİNDEKİLER TİTLE A VERİLİR (O ANKİ SOHBET NESNESİNİN)
                 s.save(update_fields=["title"])
