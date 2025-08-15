@@ -17,13 +17,15 @@
 
     <!-- SAĞ blok: doğru class söz dizimi + araya boşluk -->
     <div class="flex space-x-6">
+
       {% if user.is_authenticated %}
-        <a href="#" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Account</a>
+      <a href="{% url 'account' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Account</a>
         <a href="{% url 'logout' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Logout</a>
       {% else %}
         <a href="{% url 'login' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Login</a>
         <a href="{% url 'register' %}" class="font-medium !no-underline hover:!no-underline !text-[#4CAF50] visited:!text-[#4CAF50] hover:!text-gray-500 focus:!text-gray-500 active:!text-gray-500">Sign Up</a>
       {% endif %}
+      
     </div>
   </div>
 </nav>

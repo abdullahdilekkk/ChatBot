@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Hesabım{% endblock %}
+
+{% block content %}
+<div class="min-h-[calc(100vh-6rem)] bg-gray-100 flex items-center justify-center py-12">
+  <div class="w-full max-w-2xl bg-white rounded-xl shadow p-8">
+    <h2 class="text-2xl font-semibold mb-6">Hesabım</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <div class="text-gray-500 text-sm">Kullanıcı adı</div>
+        <div class="font-medium">{{ user.username }}</div>
+      </div>
+      <div>
+        <div class="text-gray-500 text-sm">E-posta</div>
+        <div class="font-medium">{{ user.email|default:"-" }}</div>
+      </div>
+      <div>
+        <div class="text-gray-500 text-sm">Ad</div>
+        <div class="font-medium">{{ user.first_name|default:"-" }}</div>
+      </div>
+      <div>
+        <div class="text-gray-500 text-sm">Soyad</div>
+        <div class="font-medium">{{ user.last_name|default:"-" }}</div>
+      </div>
+      <div>
+        <div class="text-gray-500 text-sm">Üyelik tarihi</div>
+        <div class="font-medium">{{ user.date_joined|date:"d.m.Y H:i" }}</div>
+      </div>
+      <div>
+        <div class="text-gray-500 text-sm">Son giriş</div>
+        <div class="font-medium">{{ user.last_login|date:"d.m.Y H:i"|default:"-" }}</div>
+      </div>
+
+    <div class="mt-8 flex gap-3">
+      <a href="{% url 'logout' %}" class="px-4 py-2 rounded-2xl shadow bg-gray-800 text-white">Çıkış Yap</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
