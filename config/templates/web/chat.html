@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row g-4">
-  <!-- SOL SÜTUN: Sidebar -->
+  <!-- SOL SÜTUN -->
   <div class="col-12 col-md-3">
     <nav class="list-group">
       {% for cs in sessions %}
@@ -16,12 +16,13 @@
     </nav>
   </div>
 
-  <!-- SAĞ SÜTUN: Chat alanı -->
+  <!-- SAĞ SÜTUN -->
   <div class="col-12 col-md-9">
     <h4 class="mb-1">Chat</h4>
     <p class="text-muted mb-3">Start a conversation with your AI assistant.</p>
 
-    <div class="border rounded-4 p-3 mb-3" style="height: 55vh; overflow:auto;">
+    <!-- id EKLENDİ -->
+    <div id="chatBox" class="border rounded-4 p-3 mb-3" style="height:55vh; overflow:auto;">
       {% if chat_history %}
         {% for m in chat_history %}
           <div class="mb-3">
@@ -34,8 +35,11 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="text-muted">No messages yet. Say hi 👋</div>
+        <div class="text-muted">No messages yet. Say hi</div>
       {% endif %}
+
+      <!-- DİP ÇAPA EKLENDİ -->
+      <div id="chatEnd"></div>
     </div>
 
     <form method="post" class="d-flex gap-2">
@@ -45,4 +49,37 @@
     </form>
   </div>
 </div>
+
+<!-- JS: en alta kaydır -->
+<script>
+  // tarayıcının eski scroll konumunu geri yüklemesini engelle
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  function scrollToBottom() {
+    const box = document.getElementById('chatBox');
+    const end = document.getElementById('chatEnd');
+    if (!box || !end) return;
+    // çapa'yı görünür yap (kutunun içinde)
+    end.scrollIntoView({ block: 'end' });
+    // ek güvence (özellikle Safari)
+    box.scrollTop = box.scrollHeight;
+  }
+
+  // ilk yüklemede: render biter bitmez kaydır
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => requestAnimationFrame(scrollToBottom), 0);
+  });
+
+  // DOM’a yeni mesaj eklendiğinde de kaydır (AJAX/Live update varsa)
+  const box = document.getElementById('chatBox');
+  if (box) {
+    const obs = new MutationObserver(() => {
+      const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
+      if (nearBottom) scrollToBottom();
+    });
+    obs.observe(box, { childList: true, subtree: true });
+  }
+</script>
 {% endblock %}
